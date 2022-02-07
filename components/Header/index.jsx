@@ -20,21 +20,21 @@ export default () => {
             <a>首页</a>
           </Link>
         </li>
-        <li>
+        {/* <li>
           <Link href="/page1">
             <a>Page1</a>
           </Link>
-        </li>
+        </li> */}
         <li>
           <Link href="/movies">
-            <a>电影页</a>
+            <a>电影</a>
           </Link>
         </li>
-        <li>
+        {/* <li>
           <Link href="/movies/[id]" as="/movies/3">
             <a>电影详情页</a>
           </Link>
-        </li>
+        </li> */}
         <li>
           <button
             onClick={() => {

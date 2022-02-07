@@ -2,7 +2,6 @@ import { getMovieInfo, getMovies } from '../../services/movieService';
 import { useRouter } from 'next/router';
 
 export default ({ movie }) => {
-  console.log(movie);
   const router = useRouter();
   if (router.isFallback) {
     return <h1>Loading...</h1>;
