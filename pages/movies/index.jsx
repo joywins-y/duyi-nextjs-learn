@@ -13,7 +13,9 @@ export default ({ movies }) => {
         {movies.map((movie) => {
           return (
             <li key={movie._id}>
-              <span>{movie.name}</span>
+              <a href={`/movies/${movie._id}`}>
+                <span>{movie.name}</span>
+              </a>
             </li>
           );
         })}

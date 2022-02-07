@@ -9,3 +9,8 @@ export async function getMovies(page = 1, limit = 10) {
   });
   return resp.data;
 }
+
+export async function getMovieInfo(id) {
+  let resp = await request.get('/api/movie/' + id);
+  return resp.data;
+}
