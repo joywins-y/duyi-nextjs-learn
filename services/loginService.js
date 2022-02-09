@@ -1,42 +1,25 @@
 import request from './request';
-import { getItem, isBrowser, removeItem, setItem } from '../utils/util';
-const auth = 'authorization';
+import { isBrowser } from '../utils/util';
+import cookie from 'cookie';
 
-export async function login(loginId, loginPwd) {
-  const resp = await request.post('/api/user/login', {
+export async function login(loginId, loginPwd, axios = request) {
+  const resp = await axios.post('/api/user/login', {
     loginId,
     loginPwd,
   });
-  if (resp.data.code === 0) {
-    // 登录成功
-    const token = resp.headers[auth];
-    setItem('token', token);
-  } else {
-    removeItem('token');
-  }
   return resp.data;
 }
 
-export async function whoAmI() {
-  const token = getItem('token');
-  if (!token) {
-    return {
-      code: 0,
-      message: '',
-      data: null,
-    };
-  }
-  const resp = await request.get('/api/user/whoami', {
-    headers: {
-      [auth]: token,
-    },
-  });
-  if (!resp.data.data) {
-    removeItem('token');
-  }
+export async function whoAmI(axios = request) {
+  const resp = await axios.get('/api/user/whoami');
   return resp.data;
 }
 
-export async function loginOut() {
-  removeItem('token');
+export function loginOut() {
+  if (isBrowser()) {
+    const result = cookie.serialize('token', '', {
+      maxAge: 0,
+    });
+    document.cookie = result;
+  }
 }
