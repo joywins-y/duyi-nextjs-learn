@@ -1,14 +1,16 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styles from './index.module.css';
+import { connect } from 'react-redux';
+import { loginOut } from '../../store/actions/login';
 
-export default () => {
+const Header = ({ loginUser, loginOut }) => {
   const router = useRouter();
 
   return (
     <div className={styles.header}>
       <div>
-        <Link href='/'>
+        <Link href="/">
           <a>
             <img src="/logo.png" alt="windy logo" />
           </a>
@@ -41,10 +43,30 @@ export default () => {
           </Link>
         </li>
         <li>
-          <Link href="/login">
-            <a>登录</a>
+          <Link href="/private">
+            <a>私有页面</a>
           </Link>
         </li>
+        {loginUser ? (
+          <li>
+            <span>{loginUser.name}</span>
+            <button
+              onClick={() => {
+                loginOut && loginOut();
+                alert('注销成功');
+                router.push('/login');
+              }}
+            >
+              注销
+            </button>
+          </li>
+        ) : (
+          <li>
+            <Link href="/login">
+              <a>登录</a>
+            </Link>
+          </li>
+        )}
         <li>
           <button
             onClick={() => {
@@ -58,3 +80,19 @@ export default () => {
     </div>
   );
 };
+
+function mapState(state) {
+  return {
+    loginUser: state.loginUser,
+  };
+}
+
+function mapDispatch(dispatch) {
+  return {
+    loginOut() {
+      dispatch(loginOut());
+    },
+  };
+}
+
+export default connect(mapState, mapDispatch)(Header);

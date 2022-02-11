@@ -23,7 +23,6 @@ export default () => {
       <h1>Index 首页 {Math.random()}</h1>
       <ul>
         {advs.map((adv, index) => {
-          console.log(adv);
           return (
             <li key={index}>
               <a href={adv.link} target="_blank">

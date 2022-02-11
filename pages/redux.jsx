@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../store/actions/counter';
-import makeStore from "../store";
+import makeStore from '../store';
+import withStore from '../utils/withStore';
 
 function Page({ number, increase, decrease, asyncIncrease, asyncDecrease }) {
   useEffect(() => {
@@ -59,13 +60,19 @@ export default Wrapper;
  * 3. 返回一个特殊的属性，将该仓库的数据返回
  * 4. 服务器_app运行，使用默认值创建仓库
  */
-export async function getServerSideProps() {
-  const store = makeStore();
+// export async function getServerSideProps() {
+//   const store = makeStore();
+//   await store.dispatch(actions.asyncIncrease());
+//   // 仓库有数据了
+//   return {
+//     props: {
+//       _initialState: store.getState(),
+//     },
+//   };
+// }
+
+const func = async function ({ store }) {
   await store.dispatch(actions.asyncIncrease());
-  // 仓库有数据了
-  return {
-    props: {
-      _initialState: store.getState(),
-    },
-  };
-}
+};
+
+export const getServerSideProps = withStore(func);
